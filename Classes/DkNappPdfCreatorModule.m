@@ -96,8 +96,8 @@
     
     NSString *url = [TiUtils stringValue:@"url" properties:args def:nil];
     NSString *filename = [TiUtils stringValue:@"filename" properties:args def:nil];
-    
-    
+    BOOL landscape = [TiUtils boolValue:@"landscape" properties:args def:NO];
+    BOOL letter = [TiUtils boolValue:@"letter" properties:args def:NO];
     
     if(url == nil || filename == nil){
         NSLog(@"[ERROR] generatePDFWithURL: url & filename must be defined");
@@ -107,7 +107,13 @@
         return;
     }
     
-    
+    CGSize pageSize = kPaperSizeA4;
+    if (letter){
+        pageSize = kPaperSizeLetter;
+    }
+    if (landscape){
+        pageSize = CGSizeMake(pageSize.height,pageSize.width);
+    }
     
     //NSString *filePath = @"~/Documents/";
     //filePath = [filePath stringByAppendingString:filename];
@@ -117,7 +123,7 @@
     self.PDFCreator = [NappHTMLtoPDF createPDFWithURL:[NSURL URLWithString:url]
                                          pathForPDF:[filePath stringByExpandingTildeInPath]
                                          delegate:self
-                                         pageSize:kPaperSizeA4
+                                         pageSize:pageSize
                                          margins:UIEdgeInsetsMake(10, 5, 10, 5)];
 }
 
@@ -128,6 +134,8 @@
     
     NSString *html = [TiUtils stringValue:@"html" properties:args def:nil];
     NSString *filename = [TiUtils stringValue:@"filename" properties:args def:nil];
+    BOOL landscape = [TiUtils boolValue:@"landscape" properties:args def:NO];
+    BOOL letter = [TiUtils boolValue:@"letter" properties:args def:NO];
     
     if(html == nil || filename == nil){
         NSLog(@"[ERROR] generatePDFWithHTML: html & filename must be defined");
@@ -135,6 +143,14 @@
             [self fireEvent:@"error" withObject:@{ @"success": NUMBOOL(NO) } propagate:YES];
         }
         return;
+    }
+    
+    CGSize pageSize = kPaperSizeA4;
+    if (letter){
+        pageSize = kPaperSizeLetter;
+    }
+    if (landscape){
+        pageSize = CGSizeMake(pageSize.height,pageSize.width);
     }
     
     //NSString *filePath = @"~/Documents/";
@@ -147,7 +163,7 @@
                                             baseURL:[[NSBundle mainBundle] bundleURL] //local images
                                             pathForPDF:[filePath stringByExpandingTildeInPath]
                                             delegate:self
-                                            pageSize:kPaperSizeA4
+                                            pageSize:pageSize
                                             margins:UIEdgeInsetsMake(10, 5, 10, 5)];
 }
 
