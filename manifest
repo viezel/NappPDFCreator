@@ -2,7 +2,7 @@
 # this is your module manifest and used by Titanium
 # during compilation, packaging, distribution, etc.
 #
-version: 1.0.1
+version: 2.0.0
 apiversion: 2
 description: PDF Creator
 author: Mads Møller
@@ -15,4 +15,4 @@ name: NappPDFCreator
 moduleid: dk.napp.pdf.creator
 guid: 94511658-4141-475b-982f-9a466dc1f69c
 platform: iphone
-minsdk: 2.1.4.GA
+minsdk: 7.0.0.GA
